@@ -1,10 +1,9 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-    <meta name="google-site-verification" content="mX0Knj2KaZBOFZZVqyVL-4lVLQ27l4CRtPeqz-NDzmI" />
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hızlı & Özel Tasarım QR Kod Oluşturucu</title>
+    <title>Gelişmiş & Logolu QR Kod Oluşturucu</title>
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- QRCode Styling CDN -->
@@ -17,25 +16,63 @@
         <!-- Header -->
         <header class="text-center space-y-2">
             <div class="inline-flex items-center gap-2 bg-emerald-500/10 border border-emerald-500/20 px-3 py-1 rounded-full text-emerald-400 text-xs font-semibold">
-                ⚡ Ücretsiz & Sınırsız QR Kod Aracı
+                ⚡ Ücretsiz, Logolu & Wi-Fi Uyumlu QR Aracı
             </div>
             <h1 class="text-3xl md:text-5xl font-black text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 via-cyan-400 to-blue-500">
-                Özel QR Kod Oluşturucu
+                Gelişmiş QR Kod Oluşturucu
             </h1>
             <p class="text-slate-400 text-xs md:text-sm max-w-md mx-auto">
-                Web siteniz, sosyal medyanız veya Wi-Fi ağınız için özelleştirilmiş, logolu QR kodlar tasarlayın ve indirin.
+                Web siteniz, Wi-Fi ağınız veya sosyal medyanız için logolu, renkli QR kodlar tasarlayın ve yüksek kalitede indirin.
             </p>
         </header>
+
+        <!-- Mode Selector Tabs -->
+        <div class="flex justify-center border-b border-slate-800 pb-1 gap-2 text-xs font-bold">
+            <button id="tab-url" onclick="switchTab('url')" class="px-4 py-2 rounded-xl bg-slate-900 text-emerald-400 border border-slate-800">
+                🌐 URL / Metin
+            </button>
+            <button id="tab-wifi" onclick="switchTab('wifi')" class="px-4 py-2 rounded-xl bg-slate-950 text-slate-400 hover:text-slate-200 border border-transparent">
+                📶 Wi-Fi Ağı
+            </button>
+        </div>
 
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
             
             <!-- Controls Form (7 Cols) -->
             <div class="lg:col-span-7 bg-slate-900 border border-slate-800 rounded-2xl p-5 shadow-xl space-y-4">
                 
-                <!-- Input Content -->
-                <div class="space-y-2">
+                <!-- Input Content: URL Section -->
+                <div id="section-url" class="space-y-2">
                     <label class="block text-xs font-bold text-slate-300 uppercase tracking-wider">QR Kod İçeriği / Bağlantı</label>
                     <input type="text" id="qr-data" oninput="generateQR()" value="https://google.com" placeholder="https://site-adresiniz.com veya metin" class="w-full bg-slate-950 border border-slate-800 rounded-xl p-3 text-xs text-slate-100 focus:ring-2 focus:ring-emerald-500 focus:outline-none">
+                </div>
+
+                <!-- Input Content: Wi-Fi Section -->
+                <div id="section-wifi" class="space-y-3 hidden">
+                    <label class="block text-xs font-bold text-slate-300 uppercase tracking-wider">Wi-Fi Bağlantı Bilgileri</label>
+                    <input type="text" id="wifi-ssid" oninput="generateQR()" placeholder="Ağ Adı (SSID) Örn: Ev_Net" class="w-full bg-slate-950 border border-slate-800 rounded-xl p-2.5 text-xs text-slate-100 focus:ring-2 focus:ring-emerald-500 focus:outline-none">
+                    <input type="text" id="wifi-pass" oninput="generateQR()" placeholder="Wi-Fi Şifresi" class="w-full bg-slate-950 border border-slate-800 rounded-xl p-2.5 text-xs text-slate-100 focus:ring-2 focus:ring-emerald-500 focus:outline-none">
+                    <select id="wifi-type" onchange="generateQR()" class="w-full bg-slate-950 border border-slate-800 rounded-xl p-2.5 text-xs text-slate-100 focus:ring-2 focus:ring-emerald-500 focus:outline-none">
+                        <option value="WPA">WPA / WPA2 (Şifreli - Standart)</option>
+                        <option value="WEP">WEP</option>
+                        <option value="nopass">Şifresiz (Açık Ağ)</option>
+                    </select>
+                </div>
+
+                <!-- Logo Selection -->
+                <div class="pt-2 border-t border-slate-800/80 space-y-2">
+                    <label class="block text-[11px] font-bold text-slate-300 uppercase tracking-wider">Ortaya Logo Ekle</label>
+                    <div class="flex flex-wrap gap-2 text-xs">
+                        <button onclick="setLogo('https://cdn-icons-png.flaticon.com/512/1384/1384060.png')" class="bg-slate-950 border border-slate-800 px-3 py-1.5 rounded-xl hover:bg-slate-800 text-rose-400 transition flex items-center gap-1">📸 YouTube</button>
+                        <button onclick="setLogo('https://cdn-icons-png.flaticon.com/512/3670/3670051.png')" class="bg-slate-950 border border-slate-800 px-3 py-1.5 rounded-xl hover:bg-slate-800 text-emerald-400 transition flex items-center gap-1">💬 WhatsApp</button>
+                        <button onclick="setLogo('https://cdn-icons-png.flaticon.com/512/9322/9322127.png')" class="bg-slate-950 border border-slate-800 px-3 py-1.5 rounded-xl hover:bg-slate-800 text-cyan-400 transition flex items-center gap-1">📶 Wi-Fi</button>
+                        <button onclick="setLogo('')" class="bg-slate-950 border border-slate-800 px-3 py-1.5 rounded-xl hover:bg-slate-800 text-slate-400 transition">Logoyu Kaldır</button>
+                    </div>
+                    <!-- Custom Logo Upload -->
+                    <div class="mt-2">
+                        <label class="block text-[10px] text-slate-400 mb-1">Kendi Logonuzu Yükleyin (İsteğe Bağlı):</label>
+                        <input type="file" id="logo-file" accept="image/*" onchange="uploadCustomLogo(event)" class="block w-full text-xs text-slate-400 file:mr-3 file:py-1.5 file:px-3 file:rounded-xl file:border-0 file:text-xs file:font-semibold file:bg-slate-800 file:text-slate-200 hover:file:bg-slate-700 cursor-pointer">
+                    </div>
                 </div>
 
                 <!-- Styling Options -->
@@ -71,17 +108,6 @@
                     </div>
                 </div>
 
-                <!-- Quick Presets -->
-                <div class="pt-2 border-t border-slate-800/80 space-y-2">
-                    <label class="block text-[11px] font-semibold text-slate-400">Hızlı Şablonlar</label>
-                    <div class="flex flex-wrap gap-2 text-xs">
-                        <button onclick="applyPreset('#10b981', '#ffffff', 'dots')" class="bg-slate-950 border border-slate-800 px-3 py-1.5 rounded-xl text-emerald-400 hover:bg-slate-800 transition">🟢 Zümrüt</button>
-                        <button onclick="applyPreset('#3b82f6', '#ffffff', 'rounded')" class="bg-slate-950 border border-slate-800 px-3 py-1.5 rounded-xl text-blue-400 hover:bg-slate-800 transition">🔵 Okyanus</button>
-                        <button onclick="applyPreset('#000000', '#ffffff', 'square')" class="bg-slate-950 border border-slate-800 px-3 py-1.5 rounded-xl text-slate-200 hover:bg-slate-800 transition">⚫ Siyah / Beyaz</button>
-                        <button onclick="applyPreset('#ec4899', '#ffffff', 'classy')" class="bg-slate-950 border border-slate-800 px-3 py-1.5 rounded-xl text-pink-400 hover:bg-slate-800 transition">Pink Modern</button>
-                    </div>
-                </div>
-
             </div>
 
             <!-- Live Preview & Download (5 Cols) -->
@@ -97,7 +123,7 @@
                     <button onclick="downloadQR('png')" class="w-full bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold py-3 rounded-xl text-xs shadow-lg transition flex items-center justify-center gap-2">
                         📥 Yüksek Kalitede İndir (PNG)
                     </button>
-                    <p class="text-[10px] text-slate-500 text-center">Tüm cihazlarla %100 uyumludur, taranabilir.</p>
+                    <p class="text-[10px] text-slate-500 text-center">Tüm iOS ve Android cihazlarla %100 uyumludur.</p>
                 </div>
             </div>
 
@@ -108,24 +134,20 @@
     <!-- JavaScript Engine -->
     <script>
         let qrCode;
+        let activeTab = 'url';
+        let currentLogo = '';
 
         function initQR() {
             qrCode = new QRCodeStyling({
-                width: 240,
-                height: 240,
+                width: 250,
+                height: 250,
                 type: "canvas",
                 data: "https://google.com",
                 image: "",
-                dotsOptions: {
-                    color: "#10b981",
-                    type: "square"
-                },
-                backgroundOptions: {
-                    color: "#ffffff",
-                },
-                cornersSquareOptions: {
-                    type: "square"
-                }
+                dotsOptions: { color: "#10b981", type: "square" },
+                backgroundOptions: { color: "#ffffff" },
+                cornersSquareOptions: { type: "square" },
+                imageOptions: { crossOrigin: "anonymous", margin: 8, imageSize: 0.25 }
             });
 
             const container = document.getElementById("canvas-container");
@@ -133,33 +155,70 @@
             qrCode.append(container);
         }
 
+        function switchTab(tab) {
+            activeTab = tab;
+            const tabUrl = document.getElementById('tab-url');
+            const tabWifi = document.getElementById('tab-wifi');
+            const secUrl = document.getElementById('section-url');
+            const secWifi = document.getElementById('section-wifi');
+
+            if (tab === 'url') {
+                tabUrl.className = "px-4 py-2 rounded-xl bg-slate-900 text-emerald-400 border border-slate-800";
+                tabWifi.className = "px-4 py-2 rounded-xl bg-slate-950 text-slate-400 hover:text-slate-200 border border-transparent";
+                secUrl.classList.remove('hidden');
+                secWifi.classList.add('hidden');
+            } else {
+                tabWifi.className = "px-4 py-2 rounded-xl bg-slate-900 text-emerald-400 border border-slate-800";
+                tabUrl.className = "px-4 py-2 rounded-xl bg-slate-950 text-slate-400 hover:text-slate-200 border border-transparent";
+                secWifi.classList.remove('hidden');
+                secUrl.classList.add('hidden');
+            }
+            generateQR();
+        }
+
+        function getQRPayload() {
+            if (activeTab === 'url') {
+                return document.getElementById("qr-data").value || "https://google.com";
+            } else {
+                const ssid = document.getElementById("wifi-ssid").value || "Wifi_Agim";
+                const pass = document.getElementById("wifi-pass").value || "";
+                const type = document.getElementById("wifi-type").value;
+                return `WIFI:S:${ssid};T:${type};P:${pass};;`;
+            }
+        }
+
+        function setLogo(url) {
+            currentLogo = url;
+            document.getElementById('logo-file').value = "";
+            generateQR();
+        }
+
+        function uploadCustomLogo(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    currentLogo = e.target.result;
+                    generateQR();
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+
         function generateQR() {
-            const data = document.getElementById("qr-data").value || "https://google.com";
+            const payload = getQRPayload();
             const colorDots = document.getElementById("color-dots").value;
             const colorBg = document.getElementById("color-bg").value;
             const dotsType = document.getElementById("dots-type").value;
             const cornersType = document.getElementById("corners-type").value;
 
             qrCode.update({
-                data: data,
-                dotsOptions: {
-                    color: colorDots,
-                    type: dotsType
-                },
-                backgroundOptions: {
-                    color: colorBg,
-                },
-                cornersSquareOptions: {
-                    type: cornersType
-                }
+                data: payload,
+                image: currentLogo,
+                dotsOptions: { color: colorDots, type: dotsType },
+                backgroundOptions: { color: colorBg },
+                cornersSquareOptions: { type: cornersType }
             });
-        }
-
-        function applyPreset(dotsColor, bgColor, style) {
-            document.getElementById("color-dots").value = dotsColor;
-            document.getElementById("color-bg").value = bgColor;
-            document.getElementById("dots-type").value = style;
-            generateQR();
         }
 
         function downloadQR(format) {
