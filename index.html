@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hızlı & Özel Tasarım QR Kod Oluşturucu</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- QRCode Styling CDN -->
+    <script src="https://unpkg.com/qr-code-styling@1.5.0/lib/qr-code-styling.js"></script>
+</head>
+<body class="bg-slate-950 text-slate-100 min-h-screen py-8 px-4 font-sans antialiased">
+
+    <div class="max-w-4xl mx-auto space-y-6">
+        
+        <!-- Header -->
+        <header class="text-center space-y-2">
+            <div class="inline-flex items-center gap-2 bg-emerald-500/10 border border-emerald-500/20 px-3 py-1 rounded-full text-emerald-400 text-xs font-semibold">
+                ⚡ Ücretsiz & Sınırsız QR Kod Aracı
+            </div>
+            <h1 class="text-3xl md:text-5xl font-black text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 via-cyan-400 to-blue-500">
+                Özel QR Kod Oluşturucu
+            </h1>
+            <p class="text-slate-400 text-xs md:text-sm max-w-md mx-auto">
+                Web siteniz, sosyal medyanız veya Wi-Fi ağınız için özelleştirilmiş, logolu QR kodlar tasarlayın ve indirin.
+            </p>
+        </header>
+
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+            
+            <!-- Controls Form (7 Cols) -->
+            <div class="lg:col-span-7 bg-slate-900 border border-slate-800 rounded-2xl p-5 shadow-xl space-y-4">
+                
+                <!-- Input Content -->
+                <div class="space-y-2">
+                    <label class="block text-xs font-bold text-slate-300 uppercase tracking-wider">QR Kod İçeriği / Bağlantı</label>
+                    <input type="text" id="qr-data" oninput="generateQR()" value="https://google.com" placeholder="https://site-adresiniz.com veya metin" class="w-full bg-slate-950 border border-slate-800 rounded-xl p-3 text-xs text-slate-100 focus:ring-2 focus:ring-emerald-500 focus:outline-none">
+                </div>
+
+                <!-- Styling Options -->
+                <div class="grid grid-cols-2 gap-3 pt-2 border-t border-slate-800/80">
+                    <div>
+                        <label class="block text-[11px] font-semibold text-slate-400 mb-1">QR Kod Rengi</label>
+                        <input type="color" id="color-dots" onchange="generateQR()" value="#10b981" class="w-full h-9 bg-slate-950 border border-slate-800 rounded-xl p-1 cursor-pointer">
+                    </div>
+                    <div>
+                        <label class="block text-[11px] font-semibold text-slate-400 mb-1">Arka Plan Rengi</label>
+                        <input type="color" id="color-bg" onchange="generateQR()" value="#ffffff" class="w-full h-9 bg-slate-950 border border-slate-800 rounded-xl p-1 cursor-pointer">
+                    </div>
+                </div>
+
+                <!-- Dots & Corner Styles -->
+                <div class="grid grid-cols-2 gap-3">
+                    <div>
+                        <label class="block text-[11px] font-semibold text-slate-400 mb-1">Nokta Tipi</label>
+                        <select id="dots-type" onchange="generateQR()" class="w-full bg-slate-950 border border-slate-800 rounded-xl p-2.5 text-xs text-slate-100 focus:ring-2 focus:ring-emerald-500 focus:outline-none">
+                            <option value="square">Kare</option>
+                            <option value="dots">Yuvarlak Noktalar</option>
+                            <option value="rounded">Kavisli Kareler</option>
+                            <option value="classy">Klasik</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-[11px] font-semibold text-slate-400 mb-1">Köşe Tipi</label>
+                        <select id="corners-type" onchange="generateQR()" class="w-full bg-slate-950 border border-slate-800 rounded-xl p-2.5 text-xs text-slate-100 focus:ring-2 focus:ring-emerald-500 focus:outline-none">
+                            <option value="square">Dik Dikdörtgen</option>
+                            <option value="dot">Yuvarlak</option>
+                            <option value="extra-rounded">Kavisli</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Quick Presets -->
+                <div class="pt-2 border-t border-slate-800/80 space-y-2">
+                    <label class="block text-[11px] font-semibold text-slate-400">Hızlı Şablonlar</label>
+                    <div class="flex flex-wrap gap-2 text-xs">
+                        <button onclick="applyPreset('#10b981', '#ffffff', 'dots')" class="bg-slate-950 border border-slate-800 px-3 py-1.5 rounded-xl text-emerald-400 hover:bg-slate-800 transition">🟢 Zümrüt</button>
+                        <button onclick="applyPreset('#3b82f6', '#ffffff', 'rounded')" class="bg-slate-950 border border-slate-800 px-3 py-1.5 rounded-xl text-blue-400 hover:bg-slate-800 transition">🔵 Okyanus</button>
+                        <button onclick="applyPreset('#000000', '#ffffff', 'square')" class="bg-slate-950 border border-slate-800 px-3 py-1.5 rounded-xl text-slate-200 hover:bg-slate-800 transition">⚫ Siyah / Beyaz</button>
+                        <button onclick="applyPreset('#ec4899', '#ffffff', 'classy')" class="bg-slate-950 border border-slate-800 px-3 py-1.5 rounded-xl text-pink-400 hover:bg-slate-800 transition">Pink Modern</button>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Live Preview & Download (5 Cols) -->
+            <div class="lg:col-span-5 bg-slate-900 border border-slate-800 rounded-2xl p-5 shadow-xl flex flex-col items-center justify-between space-y-4">
+                <h2 class="text-xs font-bold text-slate-400 uppercase tracking-wider self-start">Canlı Önizleme</h2>
+                
+                <!-- Container for QR Code -->
+                <div class="bg-white p-4 rounded-2xl shadow-2xl flex items-center justify-center border border-slate-200" id="canvas-container">
+                    <!-- QR Code Canvas dynamically created here -->
+                </div>
+
+                <div class="w-full space-y-2">
+                    <button onclick="downloadQR('png')" class="w-full bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold py-3 rounded-xl text-xs shadow-lg transition flex items-center justify-center gap-2">
+                        📥 Yüksek Kalitede İndir (PNG)
+                    </button>
+                    <p class="text-[10px] text-slate-500 text-center">Tüm cihazlarla %100 uyumludur, taranabilir.</p>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- JavaScript Engine -->
+    <script>
+        let qrCode;
+
+        function initQR() {
+            qrCode = new QRCodeStyling({
+                width: 240,
+                height: 240,
+                type: "canvas",
+                data: "https://google.com",
+                image: "",
+                dotsOptions: {
+                    color: "#10b981",
+                    type: "square"
+                },
+                backgroundOptions: {
+                    color: "#ffffff",
+                },
+                cornersSquareOptions: {
+                    type: "square"
+                }
+            });
+
+            const container = document.getElementById("canvas-container");
+            container.innerHTML = "";
+            qrCode.append(container);
+        }
+
+        function generateQR() {
+            const data = document.getElementById("qr-data").value || "https://google.com";
+            const colorDots = document.getElementById("color-dots").value;
+            const colorBg = document.getElementById("color-bg").value;
+            const dotsType = document.getElementById("dots-type").value;
+            const cornersType = document.getElementById("corners-type").value;
+
+            qrCode.update({
+                data: data,
+                dotsOptions: {
+                    color: colorDots,
+                    type: dotsType
+                },
+                backgroundOptions: {
+                    color: colorBg,
+                },
+                cornersSquareOptions: {
+                    type: cornersType
+                }
+            });
+        }
+
+        function applyPreset(dotsColor, bgColor, style) {
+            document.getElementById("color-dots").value = dotsColor;
+            document.getElementById("color-bg").value = bgColor;
+            document.getElementById("dots-type").value = style;
+            generateQR();
+        }
+
+        function downloadQR(format) {
+            qrCode.download({ name: "qr-kodum", extension: format });
+        }
+
+        window.onload = function() {
+            initQR();
+        };
+    </script>
+</body>
+</html>
